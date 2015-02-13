@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" ng-app="episodesApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Series</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+    <!--[if lte IE 8]>
+
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+
+    <!--<![endif]-->
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="/static/css/layouts/main-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="/static/css/layouts/main.css">
+    <!--<![endif]-->
+    <script src="/static/scripts/angular.js"></script>
+    <script src="/static/scripts/angular-route.js"></script>
+    <script src="/static/scripts/angular-resource.js"></script>
+    <script src="/static/scripts/app.js"></script>
+    <script src="/static/scripts/controllers.js"></script>
+    <script src="/static/scripts/services.js"></script>
+</head>
+
+<body>
+<div id="layout" class="pure-g" ng-controller="TVSeriesListCtrl">
+    <div class="content pure-u-2-3" ng-view>
+
+    </div>
+    <div class="content pure-u-2-3 pagination-container">
+        {%- for page in pagination.iter_pages() %}
+            <div class="pagination-item">
+            {% if page %}
+                {% if page != pagination.page %}
+                    <a href="#/p/{{ page }}">{{ page }}</a>
+                {% else %}
+                    <strong>{{ page }}</strong>
+                {% endif %}
+            {% else %}
+                 <span class=ellipsis>…</span>
+            {% endif %}
+            </div>
+      {%- endfor %}
+    </div>
+</div>
+
+
+
+
+
+
+</body>
+</html>
