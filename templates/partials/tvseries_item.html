@@ -1,0 +1,18 @@
+<div>
+
+                <div class="posts">
+                    <h1 class="content-subhead">{{ item.genres.join(', ') }}</h1>
+                    <img src="{{ item.cover_thumbnail }}" class="poster">
+                    <section class="post">
+                        <header class="post-header">
+                            <h4 class="post-title"><a href="#/e/{{ item.id }}">{{ item.title }}</a></h4>
+                            by {{ item.tvchannel_title }}
+                        </header>
+                        <div class="post-description">
+                            <p>
+                                {{ item.description }}
+                            </p>
+                        </div>
+                    </section>
+                </div>
+        </div>
