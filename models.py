@@ -1,4 +1,6 @@
+import os.path
 from flask_sqlalchemy import SQLAlchemy
+from jinja2.filters import do_truncate
 
 from episodes import app
 
@@ -17,20 +19,39 @@ actor_association_table = db.Table('actor_association', db.Model.metadata,
 )
 
 
+class TVChannel(db.Model):
+    __tablename__ = 'tvchannel'
+
+    id = db.Column('id', db.Integer, primary_key=True)
+    title = db.Column(db.String(255))
+    logo = db.Column(db.String)
+    shows = db.relationship("TVSeries")
+
+    def __unicode__(self):
+        return self.title
+
+
 class TVSeries(db.Model):
     __tablename__ = 'tvseries'
 
     id = db.Column('id', db.Integer, primary_key=True)
     title = db.Column(db.String(255))
     rating = db.Column(db.String)
-    description = db.Column(db.String)
+    short_description = db.Column(db.String)
+    description = db.Column(db.Text)
     genres = db.relationship("Genre", secondary=genre_association_table, backref='genres')
     actors = db.relationship("Actor", secondary=actor_association_table, backref='actors')
+    cover = db.Column(db.String)
+    tvchannel_id = db.Column(db.Integer, db.ForeignKey('tvchannel.id'))
+    tvchannel = db.relationship("TVChannel")
 
-    def __init__(self, title, rating, description):
-        self.title = title
-        self.rating = rating
-        self.description = description
+    def __unicode__(self):
+        return self.title
+
+    @property
+    def cover_thumbnail(self):
+        path, ext = os.path.splitext(self.cover)
+        return '%s_thumbnail%s' % (path, ext)
 
 
 class Actor(db.Model):
@@ -42,6 +63,8 @@ class Actor(db.Model):
     def __init__(self, full_name):
         self.full_name = full_name
 
+    def __unicode__(self):
+        return self.full_name
 
 class Genre(db.Model):
     __tablename__ = 'genre'
