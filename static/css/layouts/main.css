@@ -93,7 +93,7 @@ h3 {
     padding-bottom: 2em;
 }
 .post-title {
-    font-size: 2em;
+    font-size: 1.4em;
     color: #222;
     margin-bottom: 0.2em;
 }
@@ -179,4 +179,27 @@ h3 {
 }
 .pagination-container {
     margin-bottom: 20px;
+}
+.poster {
+    float: left;
+    margin-right: 15px;
+}
+.main-header {
+    margin-bottom: -50px;
+}
+.main-menu {
+    margin-bottom: -40px;
+    font-size: 0.9em;
+    font-weight: 600;
+}
+.main-menu ul {
+    padding: 0px !important;
+}
+.main-menu li {
+    list-style-type: none !important;
+    float: left;
+    margin-right: 10px;
+}
+.main-menu a {
+    text-decoration: none;
 }
