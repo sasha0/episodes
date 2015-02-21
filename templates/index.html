@@ -30,11 +30,16 @@
 </head>
 
 <body>
-<div id="layout" class="pure-g" ng-controller="TVSeriesListCtrl">
-    <div class="content pure-u-2-3" ng-view>
-
+<div id="layout" class="pure-g">
+    <div class="content pure-u-2-3 main-header"><h1>Episodes &mdash; tvseries updates</h1></div>
+    <div class="content pure-u-2-3 main-menu">
+        <ul>
+            <li><a href="#/">TV Series</a></li>
+            <li><a href="#/channels/">TV Channels</a></li>
+        </ul>
     </div>
-    <div class="content pure-u-2-3 pagination-container">
+    <div class="content pure-u-2-3" ng-view></div>
+    <div class="content pure-u-2-3 pagination-container" ng-hide="hide_pagination">
         {%- for page in pagination.iter_pages() %}
             <div class="pagination-item">
             {% if page %}
