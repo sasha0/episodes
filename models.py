@@ -40,6 +40,19 @@ class TVChannel(db.Model):
         return list(self.tvseries.limit(5))
 
 
+class Episode(db.Model):
+    __tablename__ = 'episodes'
+
+    id = db.Column('id', db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    description = db.Column(db.Text)
+    episode_number = db.Column(db.Integer)
+    season_number = db.Column(db.Integer)
+    showed_at = db.Column(db.Date)
+    tvseries_id = db.Column(db.Integer, db.ForeignKey('tvseries.id'))
+    tvseries = db.relationship("TVSeries")
+
+
 class TVSeries(db.Model):
     __tablename__ = 'tvseries'
 
@@ -53,6 +66,7 @@ class TVSeries(db.Model):
     cover = db.Column(db.String)
     tvchannel_id = db.Column(db.Integer, db.ForeignKey('tvchannel.id'))
     tvchannel = db.relationship("TVChannel")
+    episodes = db.relationship("Episode")
 
     def __unicode__(self):
         return self.title

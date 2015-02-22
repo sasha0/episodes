@@ -13,10 +13,23 @@ episodesApp.config(
             templateUrl: '/partials/tvseries_item.html',
             controller: 'TVSeriesItemCtrl'
       })
+      .when('/e/:tvseriesId/e', {
+            templateUrl: '/partials/episodes.html',
+            controller: 'EpisodesListCtrl'
+      })
       .when('/c/', {
             templateUrl: '/partials/tvchannels.html',
             controller: 'TVChannelListCtrl'
-      }).otherwise({
+      })
+      .when('/u/', {
+            templateUrl: '/partials/upcoming_episodes.html',
+            controller: 'UpcomingEpisodesListCtrl'
+      })
+      .when('/u/:pageId', {
+            templateUrl: '/partials/upcoming_episodes.html',
+            controller: 'UpcomingEpisodesListCtrl'
+      })
+      .otherwise({
         redirectTo: '/p/1'
       });
   });

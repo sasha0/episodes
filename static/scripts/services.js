@@ -22,3 +22,17 @@ episodesServices.factory('TVChannelList', ['$resource',
       query: {method:'GET', isArray: true}
     });
   }]);
+
+episodesServices.factory('UpcomingEpisodesList', ['$resource',
+  function($resource){
+    return $resource('episodes/upcoming/:pageId', {pageId: '@id'}, {
+      query: {method:'GET', isArray:false}
+    });
+  }]);
+
+episodesServices.factory('EpisodesList', ['$resource',
+  function($resource){
+    return $resource('series/i/:tvseriesId/episodes', {pageId: '@id'}, {
+      query: {method:'GET', isArray: true}
+    });
+  }]);

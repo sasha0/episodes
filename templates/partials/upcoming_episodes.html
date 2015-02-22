@@ -1,0 +1,19 @@
+<div>
+    <div class="posts" ng-repeat="item in items">
+        <h1 class="content-subhead">{{ item.genres.join(', ') }}</h1>
+        <img src="{{ item.tvseries.cover_thumbnail }}" class="poster">
+        <section class="post">
+            <header class="post-header">
+                <h4 class="post-title">{{ item.title }} (e{{ item.episode_number }}, s{{ item.season_number }})</h4>
+                <a href="#/e/{{ item.tvseries.id }}">{{ item.tvseries.title }}</a><br><br>
+                Episode will be shown {{ item.showed_at }} on {{ item.tvseries.tvchannel }}
+            </header>
+        </section>
+    </div>
+</div>
+<div class=" pagination-container">
+    <div class="pagination-item" ng-repeat="page in pagination_items">
+        <a href="#/u/{{ page }}" ng-if="page != current_page">{{ page }}</a>
+        <strong ng-if="page == current_page">{{ page }}</strong>
+    </div>
+</div>

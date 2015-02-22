@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import json
+import datetime
 from flask import Flask, render_template, send_from_directory
 from flask.ext.restful import Api, Resource, fields, marshal_with, marshal
 
@@ -7,11 +7,11 @@ app = Flask(__name__)
 app.config.from_object('config.Config')
 api = Api(app)
 
-class NestedItem(fields.Raw):
+class Date(fields.Raw):
+
     def format(self, value):
-        print value
-        print [{'id': s.id, 'title': s.title} for s in value.tvseries]
-        print 123
+        return datetime.datetime.strftime(value, '%d.%m.%Y')
+
 
 tvseries_resource_fields = {
     'id': fields.Integer,
@@ -31,6 +31,22 @@ tvchannel_resource_fields = {
     'logo': fields.String,
     'logo_thumbnail': fields.String,
     'popular_tvseries': fields.Nested(tvseries_resource_fields)
+}
+
+upcoming_episode_resource_fields = {
+    'id': fields.Integer,
+    'title': fields.String,
+    'episode_number': fields.Integer,
+    'season_number': fields.Integer,
+    'showed_at': Date,
+    'tvseries': fields.Nested(tvseries_resource_fields)
+}
+
+episode_resource_fields = {
+    'id': fields.Integer,
+    'title': fields.String,
+    'episode_number': fields.Integer,
+    'season_number': fields.Integer,
 }
 
 @app.route('/')
@@ -72,9 +88,32 @@ class TVChannelsList(Resource):
         return TVChannel.query.all()
 
 
+class UpcomingEpisodesList(Resource):
+
+    def get(self, page_id=1):
+        from models import Episode, db
+        pagination = Episode.query.filter(Episode.showed_at >= datetime.date.today())\
+                                  .order_by(db.desc(Episode.showed_at))\
+                                  .paginate(page_id)
+        data = dict(marshal(pagination.items, upcoming_episode_resource_fields, envelope='items'))
+        data['pagination_items'] = list(pagination.iter_pages())
+        return data
+
+
+class EpisodesList(Resource):
+
+    @marshal_with(episode_resource_fields)
+    def get(self, tvseries_id):
+        from models import Episode, db
+        return list(Episode.query.filter(Episode.tvseries_id == tvseries_id)\
+                                 .order_by(Episode.season_number, Episode.episode_number, ))
+
+
 api.add_resource(TVSeriesList, '/series', '/series/<int:page_id>')
 api.add_resource(TVSeriesDetail, '/series/i/<int:tvseries_id>')
 api.add_resource(TVChannelsList, '/channels/')
+api.add_resource(EpisodesList, '/series/i/<int:tvseries_id>/episodes')
+api.add_resource(UpcomingEpisodesList, '/episodes/upcoming/', '/episodes/upcoming/<int:page_id>')
 
 if __name__ == "__main__":
     app.run()
