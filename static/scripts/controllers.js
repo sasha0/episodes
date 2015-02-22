@@ -2,19 +2,26 @@
 
 var episodesControllers = angular.module('episodesControllers', []);
 
-episodesControllers.controller('TVSeriesListCtrl', ['$scope', '$rootScope', '$routeParams', 'TVSeriesList',
-    function($scope, $rootScope, $routeParams, TVSeriesList) {
-        $scope.hideOriginalList = false;
+episodesControllers.controller('TVSeriesListCtrl', ['$scope', '$routeParams', 'TVSeriesList',
+    function($scope, $routeParams, TVSeriesList) {
         var pageId = $routeParams['pageId'];
-        $scope.items = TVSeriesList.query({pageId: pageId});
-        $rootScope.hide_pagination = false;
+        TVSeriesList.query({pageId: pageId}, function(response) {
+            $scope.items = response.items;
+            $scope.pagination_items = response.pagination_items;
+        });
+        $scope.current_page = pageId;
     }]
 );
 
-episodesControllers.controller('TVSeriesItemCtrl', ['$scope', '$rootScope', '$routeParams', 'TVSeriesDetail',
-    function($scope, $rootScope, $routeParams, TVSeriesDetail) {
+episodesControllers.controller('TVSeriesItemCtrl', ['$scope', '$routeParams', 'TVSeriesDetail',
+    function($scope, $routeParams, TVSeriesDetail) {
         var tvseriesId = $routeParams['tvseriesId'];
         $scope.item = TVSeriesDetail.get({tvseriesId: tvseriesId});
-        $rootScope.hide_pagination = true;
+    }]
+);
+
+episodesControllers.controller('TVChannelListCtrl', ['$scope', '$routeParams', 'TVChannelList',
+    function($scope, $routeParams, TVChannelList) {
+        $scope.items = TVChannelList.query();
     }]
 );

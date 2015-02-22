@@ -1,0 +1,17 @@
+<div>
+    <div class="posts" ng-repeat="item in items">
+        <h1 class="content-subhead">{{ item.genres.join(', ') }}</h1>
+        <img src="{{ item.logo_thumbnail }}" class="poster">
+        <section class="post">
+            <div class="post-description">
+                <br clear="both">
+                Latest popular shows:
+                <ul>
+                   <li ng-repeat="show in item.popular_tvseries">
+                       <a href="#/e/{{ show.id }}">{{ show.title }}</a>
+                   </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+</div>

@@ -25,10 +25,19 @@ class TVChannel(db.Model):
     id = db.Column('id', db.Integer, primary_key=True)
     title = db.Column(db.String(255))
     logo = db.Column(db.String)
-    shows = db.relationship("TVSeries")
+    tvseries = db.relationship("TVSeries", order_by='desc(TVSeries.rating)', lazy='dynamic')
 
     def __unicode__(self):
         return self.title
+
+    @property
+    def logo_thumbnail(self):
+        path, ext = os.path.splitext(self.logo)
+        return '%s_thumbnail%s' % (path, ext)
+
+    @property
+    def popular_tvseries(self):
+        return list(self.tvseries.limit(5))
 
 
 class TVSeries(db.Model):
@@ -65,6 +74,7 @@ class Actor(db.Model):
 
     def __unicode__(self):
         return self.full_name
+
 
 class Genre(db.Model):
     __tablename__ = 'genre'

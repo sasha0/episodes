@@ -12,7 +12,11 @@ episodesApp.config(
       .when('/e/:tvseriesId', {
             templateUrl: '/partials/tvseries_item.html',
             controller: 'TVSeriesItemCtrl'
+      })
+      .when('/c/', {
+            templateUrl: '/partials/tvchannels.html',
+            controller: 'TVChannelListCtrl'
       }).otherwise({
         redirectTo: '/p/1'
-      });;
+      });
   });

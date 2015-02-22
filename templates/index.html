@@ -35,31 +35,10 @@
     <div class="content pure-u-2-3 main-menu">
         <ul>
             <li><a href="#/">TV Series</a></li>
-            <li><a href="#/channels/">TV Channels</a></li>
+            <li><a href="#/c/">TV Channels</a></li>
         </ul>
     </div>
     <div class="content pure-u-2-3" ng-view></div>
-    <div class="content pure-u-2-3 pagination-container" ng-hide="hide_pagination">
-        {%- for page in pagination.iter_pages() %}
-            <div class="pagination-item">
-            {% if page %}
-                {% if page != pagination.page %}
-                    <a href="#/p/{{ page }}">{{ page }}</a>
-                {% else %}
-                    <strong>{{ page }}</strong>
-                {% endif %}
-            {% else %}
-                 <span class=ellipsis>…</span>
-            {% endif %}
-            </div>
-      {%- endfor %}
-    </div>
 </div>
-
-
-
-
-
-
 </body>
 </html>

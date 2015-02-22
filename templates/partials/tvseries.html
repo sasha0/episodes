@@ -1,18 +1,23 @@
 <div>
-
-                <div class="posts" ng-repeat="item in items">
-                    <h1 class="content-subhead">{{ item.genres.join(', ') }}</h1>
-                    <img src="{{ item.cover_thumbnail }}" class="poster">
-                    <section class="post">
-                        <header class="post-header">
-                            <h4 class="post-title"><a href="#/e/{{ item.id }}">{{ item.title }}</a></h4>
-                            by {{ item.tvchannel }}
-                        </header>
-                        <div class="post-description">
-                            <p>
-                                {{ item.short_description }}
-                            </p>
-                        </div>
-                    </section>
-                </div>
-        </div>
+    <div class="posts" ng-repeat="item in items">
+        <h1 class="content-subhead">{{ item.genres.join(', ') }}</h1>
+        <img src="{{ item.cover_thumbnail }}" class="poster">
+        <section class="post">
+            <header class="post-header">
+                <h4 class="post-title"><a href="#/e/{{ item.id }}">{{ item.title }}</a></h4>
+                by {{ item.tvchannel }}
+            </header>
+            <div class="post-description">
+                <p>
+                    {{ item.short_description }}
+                </p>
+            </div>
+        </section>
+    </div>
+</div>
+<div class=" pagination-container">
+    <div class="pagination-item" ng-repeat="page in pagination_items">
+        <a href="#/p/{{ page }}" ng-if="page != current_page">{{ page }}</a>
+        <strong ng-if="page == current_page">{{ page }}</strong>
+    </div>
+</div>
