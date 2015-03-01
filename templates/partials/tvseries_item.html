@@ -12,7 +12,11 @@
                             <p>
                                 {{ item.description }}
                             </p>
-                            <a href="#/e/{{ item.id }}/e">All episodes</a>
+                            <a href="#/e/{{ item.id }}/e">All episodes</a><br>
+                            <b>Credits</b><br>
+                            <span ng-repeat="role in item.roles">
+                                {{ role.actor }} &mdash; {{ role.role }}<br>
+                            </span>
                         </div>
                     </section>
                 </div>

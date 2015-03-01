@@ -12,6 +12,10 @@ class Date(fields.Raw):
     def format(self, value):
         return datetime.datetime.strftime(value, '%d.%m.%Y')
 
+role_resource_fields = {
+    'role': fields.String,
+    'actor': fields.String
+}
 
 tvseries_resource_fields = {
     'id': fields.Integer,
@@ -23,6 +27,7 @@ tvseries_resource_fields = {
     'actors': fields.List(fields.String),
     'cover_thumbnail': fields.String,
     'tvchannel': fields.String,
+    'short_credits': fields.List(fields.String)
 }
 
 tvchannel_resource_fields = {
@@ -74,10 +79,12 @@ class TVSeriesList(Resource):
 
 class TVSeriesDetail(Resource):
 
-    @marshal_with(tvseries_resource_fields)
     def get(self, tvseries_id):
         from models import TVSeries
-        return TVSeries.query.get(tvseries_id)
+        tvseries = TVSeries.query.get(tvseries_id)
+        data = dict(marshal(tvseries, tvseries_resource_fields))
+        data['roles'] = marshal(tvseries.roles.all(), role_resource_fields)
+        return data
 
 
 class TVChannelsList(Resource):

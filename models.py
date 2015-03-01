@@ -59,7 +59,7 @@ class TVSeries(db.Model):
     tvchannel_id = db.Column(db.Integer, db.ForeignKey('tvchannel.id'))
     tvchannel = db.relationship("TVChannel")
     episodes = db.relationship("Episode")
-    roles = db.relationship("Role")
+    roles = db.relationship("Role", lazy='dynamic')
 
     def __unicode__(self):
         return self.title
@@ -68,6 +68,10 @@ class TVSeries(db.Model):
     def cover_thumbnail(self):
         path, ext = os.path.splitext(self.cover)
         return '%s_thumbnail%s' % (path, ext)
+
+    @property
+    def short_credits(self):
+        return [r.actor for r in self.roles.limit(10)]
 
 
 class Role(db.Model):
