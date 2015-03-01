@@ -2,8 +2,9 @@
 
 var episodesControllers = angular.module('episodesControllers', []);
 
-episodesControllers.controller('TVSeriesListCtrl', ['$scope', '$routeParams', 'TVSeriesList',
-    function($scope, $routeParams, TVSeriesList) {
+episodesControllers.controller('TVSeriesListCtrl', ['$scope', '$rootScope', '$routeParams', 'TVSeriesList',
+    function($scope, $rootScope, $routeParams, TVSeriesList) {
+        $rootScope.title = 'Popular TV series';
         var pageId = $routeParams['pageId'];
         TVSeriesList.query({pageId: pageId}, function(response) {
             $scope.items = response.items;
@@ -18,21 +19,35 @@ episodesControllers.controller('TVSeriesListCtrl', ['$scope', '$routeParams', 'T
     }]
 );
 
-episodesControllers.controller('TVSeriesItemCtrl', ['$scope', '$routeParams', 'TVSeriesDetail',
-    function($scope, $routeParams, TVSeriesDetail) {
+episodesControllers.controller('TVSeriesItemCtrl', ['$scope', '$rootScope', '$routeParams', 'TVSeriesDetail',
+    function($scope, $rootScope, $routeParams, TVSeriesDetail) {
         var tvseriesId = $routeParams['tvseriesId'];
-        $scope.item = TVSeriesDetail.get({tvseriesId: tvseriesId});
+        TVSeriesDetail.get({tvseriesId: tvseriesId}, function(response) {
+            $scope.item = response;
+            $rootScope.title = 'TV series — ' + response.title;
+        });
     }]
 );
 
-episodesControllers.controller('TVChannelListCtrl', ['$scope', '$routeParams', 'TVChannelList',
-    function($scope, $routeParams, TVChannelList) {
+episodesControllers.controller('TVChannelListCtrl', ['$scope', '$rootScope', '$routeParams', 'TVChannelList',
+    function($scope, $rootScope, $routeParams, TVChannelList) {
         $scope.items = TVChannelList.query();
+        $rootScope.title = 'Popular TV channels.'
     }]
 );
 
-episodesControllers.controller('UpcomingEpisodesListCtrl', ['$scope', '$routeParams', 'UpcomingEpisodesList',
-    function($scope, $routeParams, UpcomingEpisodesList) {
+episodesControllers.controller('TVSeriesForChannelListCtrl', ['$scope', '$rootScope', '$routeParams', 'TVSeriesForChannelList',
+    function($scope, $rootScope, $routeParams, TVSeriesForChannelList) {
+        TVSeriesForChannelList.query({'tvchannelId': $routeParams['tvchannelId']}, function(response) {
+            $scope.item = response;
+            $rootScope.title = 'TV series of ' + response.title;
+        });
+    }]
+);
+
+episodesControllers.controller('UpcomingEpisodesListCtrl', ['$scope', '$rootScope', '$routeParams', 'UpcomingEpisodesList',
+    function($scope, $rootScope, $routeParams, UpcomingEpisodesList) {
+        $rootScope.title = 'Upcoming episodes';
         var pageId = $routeParams['pageId'];
         UpcomingEpisodesList.query({pageId: pageId}, function(response) {
             $scope.items = response.items;
@@ -47,12 +62,13 @@ episodesControllers.controller('UpcomingEpisodesListCtrl', ['$scope', '$routePar
     }]
 );
 
-episodesControllers.controller('EpisodesListCtrl', ['$scope', '$routeParams', 'EpisodesList',
-    function($scope, $routeParams, EpisodesList) {
+episodesControllers.controller('EpisodesListCtrl', ['$scope', '$rootScope', '$routeParams', 'EpisodesList',
+    function($scope, $rootScope, $routeParams, EpisodesList) {
         var pageId = $routeParams['pageId'];
         UpcomingEpisodesList.query({pageId: pageId}, function(response) {
             $scope.items = response.items;
             $scope.pagination_items = response.pagination_items;
+            $rootScope.title = 'Episodes list for ' + response.title;
         });
         if (typeof(pageId) !== 'undefined') {
             $scope.current_page = pageId;
@@ -63,8 +79,8 @@ episodesControllers.controller('EpisodesListCtrl', ['$scope', '$routeParams', 'E
     }]
 );
 
-episodesControllers.controller('EpisodesListCtrl', ['$scope', '$routeParams', 'EpisodesList',
-    function($scope, $routeParams, EpisodesList) {
+episodesControllers.controller('EpisodesListCtrl', ['$scope', '$rootScope', '$routeParams', 'EpisodesList',
+    function($scope, $rootScope, $routeParams, EpisodesList) {
         var tvseriesId = $routeParams['tvseriesId'];
         $scope.items = EpisodesList.query({tvseriesId: tvseriesId});
     }]

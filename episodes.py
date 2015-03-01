@@ -88,6 +88,19 @@ class TVChannelsList(Resource):
         return TVChannel.query.all()
 
 
+class TVSeriesForChannelList(Resource):
+
+    def get(self, tvchannel_id):
+        from models import TVSeries, TVChannel
+        tvchannel = TVChannel.query.get(tvchannel_id)
+        tvseries_for_channel_resource_fields = tvchannel_resource_fields
+        tvseries_for_channel_resource_fields.pop('popular_tvseries', None)
+        tvseries = list(tvchannel.tvseries.all())
+        data = dict(marshal(tvchannel, tvseries_for_channel_resource_fields))
+        data['tvseries'] = marshal(tvseries, tvseries_resource_fields)
+        return data
+
+
 class UpcomingEpisodesList(Resource):
 
     def get(self, page_id=1):
@@ -112,6 +125,7 @@ class EpisodesList(Resource):
 api.add_resource(TVSeriesList, '/series', '/series/<int:page_id>')
 api.add_resource(TVSeriesDetail, '/series/i/<int:tvseries_id>')
 api.add_resource(TVChannelsList, '/channels/')
+api.add_resource(TVSeriesForChannelList, '/channels/<int:tvchannel_id>/tvseries')
 api.add_resource(EpisodesList, '/series/i/<int:tvseries_id>/episodes')
 api.add_resource(UpcomingEpisodesList, '/episodes/upcoming/', '/episodes/upcoming/<int:page_id>')
 

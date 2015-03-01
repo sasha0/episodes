@@ -21,6 +21,10 @@ episodesApp.config(
             templateUrl: '/partials/tvchannels.html',
             controller: 'TVChannelListCtrl'
       })
+      .when('/c/:tvchannelId/tvseries', {
+            templateUrl: '/partials/tvseries_for_channel.html',
+            controller: 'TVSeriesForChannelListCtrl'
+      })
       .when('/u/', {
             templateUrl: '/partials/upcoming_episodes.html',
             controller: 'UpcomingEpisodesListCtrl'

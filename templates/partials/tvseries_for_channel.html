@@ -1,0 +1,17 @@
+<div>
+    <img src="{{ item.logo_thumbnail }}" class="tvchannel-logo">
+    <div class="posts" ng-repeat="tvseries in item.tvseries">
+        <h1 class="content-subhead">{{ item.genres.join(', ') }}</h1>
+        <img src="{{ tvseries.cover_thumbnail }}" class="poster">
+        <section class="post">
+            <header class="post-header">
+                <h4 class="post-title"><a href="#/e/{{ tvseries.id }}">{{ tvseries.title }}</a></h4>
+            </header>
+            <div class="post-description">
+                <p>
+                    {{ tvseries.short_description }}
+                </p>
+            </div>
+        </section>
+    </div>
+</div>

@@ -23,6 +23,13 @@ episodesServices.factory('TVChannelList', ['$resource',
     });
   }]);
 
+episodesServices.factory('TVSeriesForChannelList', ['$resource',
+  function($resource){
+    return $resource('channels/:tvchannelId/tvseries', {}, {
+      query: {method:'GET', isArray: false}
+    });
+  }]);
+
 episodesServices.factory('UpcomingEpisodesList', ['$resource',
   function($resource){
     return $resource('episodes/upcoming/:pageId', {pageId: '@id'}, {

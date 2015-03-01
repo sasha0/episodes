@@ -1,6 +1,5 @@
 import os.path
 from flask_sqlalchemy import SQLAlchemy
-from jinja2.filters import do_truncate
 
 from episodes import app
 
@@ -10,12 +9,6 @@ db = SQLAlchemy(app)
 genre_association_table = db.Table('genre_association', db.Model.metadata,
     db.Column('tvseries_id', db.Integer, db.ForeignKey('tvseries.id')),
     db.Column('genre_id', db.Integer, db.ForeignKey('genre.id'))
-)
-
-
-actor_association_table = db.Table('actor_association', db.Model.metadata,
-    db.Column('tvseries_id', db.Integer, db.ForeignKey('tvseries.id')),
-    db.Column('actor_id', db.Integer, db.ForeignKey('actor.id'))
 )
 
 
@@ -41,7 +34,7 @@ class TVChannel(db.Model):
 
 
 class Episode(db.Model):
-    __tablename__ = 'episodes'
+    __tablename__ = 'episode'
 
     id = db.Column('id', db.Integer, primary_key=True)
     title = db.Column(db.String)
@@ -62,11 +55,11 @@ class TVSeries(db.Model):
     short_description = db.Column(db.String)
     description = db.Column(db.Text)
     genres = db.relationship("Genre", secondary=genre_association_table, backref='genres')
-    actors = db.relationship("Actor", secondary=actor_association_table, backref='actors')
     cover = db.Column(db.String)
     tvchannel_id = db.Column(db.Integer, db.ForeignKey('tvchannel.id'))
     tvchannel = db.relationship("TVChannel")
     episodes = db.relationship("Episode")
+    roles = db.relationship("Role")
 
     def __unicode__(self):
         return self.title
@@ -77,14 +70,26 @@ class TVSeries(db.Model):
         return '%s_thumbnail%s' % (path, ext)
 
 
+class Role(db.Model):
+    __tablename__ = 'role'
+
+    id = db.Column('id', db.Integer, primary_key=True)
+    role = db.Column(db.String(255))    # character etc
+    actor_id = db.Column(db.Integer, db.ForeignKey('actor.id'))
+    actor = db.relationship("Actor")
+    tvseries_id = db.Column(db.Integer, db.ForeignKey('tvseries.id'))
+    tvseries = db.relationship("TVSeries")
+
+    def __unicode__(self):
+        return self.full_name
+
+
 class Actor(db.Model):
     __tablename__ = 'actor'
 
     id = db.Column('id', db.Integer, primary_key=True)
     full_name = db.Column(db.String(255))
-
-    def __init__(self, full_name):
-        self.full_name = full_name
+    roles = db.relationship("Role")
 
     def __unicode__(self):
         return self.full_name
