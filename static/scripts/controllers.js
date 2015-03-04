@@ -2,8 +2,8 @@
 
 var episodesControllers = angular.module('episodesControllers', []);
 
-episodesControllers.controller('TVSeriesListCtrl', ['$scope', '$rootScope', '$routeParams', 'TVSeriesList',
-    function($scope, $rootScope, $routeParams, TVSeriesList) {
+episodesControllers.controller('TVSeriesListCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'TVSeriesList',
+    function($scope, $rootScope, $location, $routeParams, TVSeriesList) {
         $rootScope.title = 'Popular TV series';
         var pageId = $routeParams['pageId'];
         TVSeriesList.query({pageId: pageId}, function(response) {
@@ -15,6 +15,10 @@ episodesControllers.controller('TVSeriesListCtrl', ['$scope', '$rootScope', '$ro
         }
         else {
             $scope.current_page = 1;
+        }
+
+        $scope.next_page = function (page) {
+            $location.path('/p/' + page);
         }
     }]
 );

@@ -1,24 +1,18 @@
-<div>
-    <div class="posts" ng-repeat="item in items">
-        <h1 class="content-subhead">{{ item.genres.join(', ') }}</h1>
-        <img src="{{ item.cover_thumbnail }}" class="poster">
-        <section class="post">
-            <header class="post-header">
-                <h4 class="post-title"><a href="#/e/{{ item.id }}">{{ item.title }}</a></h4>
-                by {{ item.tvchannel }}
-            </header>
-            <div class="post-description">
-                <p>
-                    {{ item.short_description }}
-                </p>
-            </div>
+    <div class="ui page grid" ng-repeat="item in items">
+        <h4 class="ui header"><a href="#/e/{{ item.id }}">{{ item.title }}</a></h4>
+        <div class="two wide column cover-thumbnail">
+            <img src="{{ item.cover_thumbnail }}" class="poster">
+        </div>
+        <div class="twelve wide column">
+            {{ item.short_description }}<br><br>
             <b>Credits:</b> {{ item.short_credits.join(', ') }}
-        </section>
+        </div>
+        <div class="ui divider items-divider"></div>
     </div>
-</div>
-<div class=" pagination-container">
-    <div class="pagination-item" ng-repeat="page in pagination_items">
-        <a href="#/p/{{ page }}" ng-if="page != current_page">{{ page }}</a>
-        <strong ng-if="page == current_page">{{ page }}</strong>
+    <div class="ui page grid">
+        <div class="ui buttons">
+            <div class="ui button" ng-repeat="page in pagination_items" ng-class="{'active': page == current_page}" ng-click="next_page(page);">
+                {{ page }}
+            </div>
+        </div>
     </div>
-</div>

@@ -1,45 +1,55 @@
-<!doctype html>
-<html lang="en" ng-app="episodesApp">
+<!DOCTYPE html>
+<html ng-app="episodesApp">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% raw %}{{ title }}{% endraw %}</title>
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
-    <!--[if lte IE 8]>
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+  <!-- Site Properities -->
+  <title>{% raw %}{{ title }}{% endraw %}</title>
 
-    <![endif]-->
-    <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" type="text/css" href="/static/dist/semantic.css">
 
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
-
-    <!--<![endif]-->
-    <!--[if lte IE 8]>
-        <link rel="stylesheet" href="/static/css/layouts/main-old-ie.css">
-    <![endif]-->
-    <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="/static/css/layouts/main.css">
-    <!--<![endif]-->
-    <script src="/static/scripts/angular.js"></script>
-    <script src="/static/scripts/angular-route.js"></script>
-    <script src="/static/scripts/angular-resource.js"></script>
-    <script src="/static/scripts/app.js"></script>
-    <script src="/static/scripts/controllers.js"></script>
-    <script src="/static/scripts/services.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+  <script src="/static/dist/semantic.js"></script>
+  <script src="/static/scripts/angular.js"></script>
+  <script src="/static/scripts/angular-route.js"></script>
+  <script src="/static/scripts/angular-resource.js"></script>
+  <script src="/static/scripts/app.js"></script>
+  <script src="/static/scripts/controllers.js"></script>
+  <script src="/static/scripts/services.js"></script>
+    <style>
+        .main-content {
+            padding: 2em !important;
+        }
+        .items-divider {
+            padding-bottom: 1em !important;
+        }
+        h4 {
+            margin-bottom: -0.165em !important;
+        }
+        .cover-thumbnail {
+            margin-right: 0.5em;
+        }
+    </style>
 </head>
-
-<body>
-<div id="layout" class="pure-g">
-    <div class="content pure-u-2-3 main-header"><h1>Episodes &mdash; tvseries updates</h1></div>
-    <div class="content pure-u-2-3 main-menu">
-        <ul>
-            <li><a href="#/">TV Series</a></li>
-            <li><a href="#/c/">TV Channels</a></li>
-            <li><a href="#/u/">Upcoming episodes</a></li>
-        </ul>
+<body id="home">
+  <div class="ui vertical masthead segment">
+    <div class="ui page grid">
+      <div class="column">
+        <div class="ui text menu">
+          <a href="#/" class="active item">
+              <i class="film icon"></i>
+              TV Series</a>
+          <a href="#/c/" class="item">TV Channels</a>
+          <a href="#/u/" class="item">Upcoming episodes</a>
+        </div>
+      </div>
     </div>
-    <div class="content pure-u-2-3" ng-view></div>
-</div>
+  </div>
+  <div class="ui feature segment main-content" ng-view=""></div>
+
 </body>
+
 </html>
