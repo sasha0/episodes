@@ -1,10 +1,8 @@
-<div>
-    <div class="posts" ng-repeat="item in items">
-        <h1 class="content-subhead">{{ item.genres.join(', ') }}</h1>
-        <img src="{{ item.logo_thumbnail }}" class="poster">
-        <section class="post">
-            <div class="post-description">
-                <br clear="both">
+    <div class="ui page grid" ng-repeat="item in items">
+        <div class="two wide column cover-thumbnail">
+            <img src="{{ item.logo_thumbnail }}" class="poster">
+        </div>
+        <div class="twelve wide column">
                 Latest popular shows:
                 <ul>
                    <li ng-repeat="show in item.popular_tvseries">
@@ -12,7 +10,6 @@
                    </li>
                 </ul>
                 <a href="#/c/{{ item.id }}/tvseries">All shows</a>
-            </div>
-        </section>
+        </div>
+        <div class="ui divider items-divider"></div>
     </div>
-</div>
