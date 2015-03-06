@@ -2,7 +2,7 @@
 from flask.ext.restful import Api, Resource, fields, marshal_with, marshal
 from flask.ext.restful import reqparse
 
-from app import api, es, QueryStringQuery
+from app import api, es, QueryStringQuery, MultiMatchQuery, TermQuery
 from app.resource_fields import *
 from models import Episode, TVChannel, TVSeries
 
@@ -73,7 +73,7 @@ class TVSeriesSearch(Resource):
     def get(self):
         parser.add_argument('q', type=str)
         params = parser.parse_args()
-        q = QueryStringQuery(params['q'])
+        q = MultiMatchQuery(['title', 'description'], params['q'])
         r = es.search(query=q)
         return list(r)
 
