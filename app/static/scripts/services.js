@@ -43,3 +43,10 @@ episodesServices.factory('EpisodesList', ['$resource',
       query: {method:'GET', isArray: true}
     });
   }]);
+
+episodesServices.factory('SearchTVSeriesList', ['$resource',
+  function($resource){
+    return $resource('series/search/', {}, {
+      query: {method:'GET', isArray: true, params: {'q': '@q'}}
+    });
+  }]);

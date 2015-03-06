@@ -32,6 +32,9 @@
         .cover-thumbnail {
             margin-right: 0.5em;
         }
+        .wide-search-input {
+            width: 250px !important;
+        }
     </style>
 </head>
 <body id="home">
@@ -44,12 +47,33 @@
               TV Series</a>
           <a href="#/c/" class="item">TV Channels</a>
           <a href="#/u/" class="item">Upcoming episodes</a>
+            <div class="ui input item wide-search-input" ng-controller="SearchTVSeriesCtrl">
+              <form ng-submit="SearchTVSeries();">
+                <input name="q" ng-model="q" type="text" placeholder="Search...">
+              </form>
+            </div>
         </div>
+
       </div>
     </div>
   </div>
-  <div class="ui feature segment main-content" ng-view=""></div>
+  <div class="ui feature segment main-content" ng-view="" ng-hide="hideMainContent"></div>
 
+  {% raw %}
+    <div class="ui feature segment main-content" ng-hide="hideSearchResults">
+        <div class="ui page grid" ng-repeat="item in result" ng-model="result">
+            <h4 class="ui header"><a href="#/e/{{ item.id }}">{{ item.title }}</a></h4>
+            <div class="two wide column cover-thumbnail">
+                <img src="{{ item.cover_thumbnail }}" class="poster">
+            </div>
+            <div class="twelve wide column">
+                {{ item.short_description }}<br><br>
+                <b>Credits:</b> {{ item.short_credits.join(', ') }}
+            </div>
+            <div class="ui divider items-divider"></div>
+        </div>
+      </div>
+  {% endraw %}
 </body>
 
 </html>

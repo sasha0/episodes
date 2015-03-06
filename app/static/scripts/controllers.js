@@ -4,6 +4,8 @@ var episodesControllers = angular.module('episodesControllers', []);
 
 episodesControllers.controller('TVSeriesListCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'TVSeriesList',
     function($scope, $rootScope, $location, $routeParams, TVSeriesList) {
+        $rootScope.hideMainContent = false;
+        $rootScope.hideSearchResults = true;
         $rootScope.title = 'Popular TV series';
         var pageId = $routeParams['pageId'];
         TVSeriesList.query({pageId: pageId}, function(response) {
@@ -26,6 +28,8 @@ episodesControllers.controller('TVSeriesListCtrl', ['$scope', '$rootScope', '$lo
 episodesControllers.controller('TVSeriesItemCtrl', ['$scope', '$rootScope', '$routeParams', 'TVSeriesDetail',
     function($scope, $rootScope, $routeParams, TVSeriesDetail) {
         var tvseriesId = $routeParams['tvseriesId'];
+        $rootScope.hideMainContent = false;
+        $rootScope.hideSearchResults = true;
         TVSeriesDetail.get({tvseriesId: tvseriesId}, function(response) {
             $scope.item = response;
             $rootScope.title = 'TV series — ' + response.title;
@@ -35,6 +39,8 @@ episodesControllers.controller('TVSeriesItemCtrl', ['$scope', '$rootScope', '$ro
 
 episodesControllers.controller('TVChannelListCtrl', ['$scope', '$rootScope', '$routeParams', 'TVChannelList',
     function($scope, $rootScope, $routeParams, TVChannelList) {
+        $rootScope.hideMainContent = false;
+        $rootScope.hideSearchResults = true;
         $scope.items = TVChannelList.query();
         $rootScope.title = 'Popular TV channels.'
     }]
@@ -42,6 +48,8 @@ episodesControllers.controller('TVChannelListCtrl', ['$scope', '$rootScope', '$r
 
 episodesControllers.controller('TVSeriesForChannelListCtrl', ['$scope', '$rootScope', '$routeParams', 'TVSeriesForChannelList',
     function($scope, $rootScope, $routeParams, TVSeriesForChannelList) {
+        $rootScope.hideMainContent = false;
+        $rootScope.hideSearchResults = true;
         TVSeriesForChannelList.query({'tvchannelId': $routeParams['tvchannelId']}, function(response) {
             $scope.item = response;
             $rootScope.title = 'TV series of ' + response.title;
@@ -51,6 +59,8 @@ episodesControllers.controller('TVSeriesForChannelListCtrl', ['$scope', '$rootSc
 
 episodesControllers.controller('UpcomingEpisodesListCtrl', ['$scope', '$rootScope', '$routeParams', 'UpcomingEpisodesList',
     function($scope, $rootScope, $routeParams, UpcomingEpisodesList) {
+        $rootScope.hideMainContent = false;
+        $rootScope.hideSearchResults = true;
         $rootScope.title = 'Upcoming episodes';
         var pageId = $routeParams['pageId'];
         UpcomingEpisodesList.query({pageId: pageId}, function(response) {
@@ -69,6 +79,8 @@ episodesControllers.controller('UpcomingEpisodesListCtrl', ['$scope', '$rootScop
 episodesControllers.controller('EpisodesListCtrl', ['$scope', '$rootScope', '$routeParams', 'EpisodesList',
     function($scope, $rootScope, $routeParams, EpisodesList) {
         var pageId = $routeParams['pageId'];
+        $rootScope.hideMainContent = false;
+        $rootScope.hideSearchResults = true;
         UpcomingEpisodesList.query({pageId: pageId}, function(response) {
             $scope.items = response.items;
             $scope.pagination_items = response.pagination_items;
@@ -86,6 +98,20 @@ episodesControllers.controller('EpisodesListCtrl', ['$scope', '$rootScope', '$ro
 episodesControllers.controller('EpisodesListCtrl', ['$scope', '$rootScope', '$routeParams', 'EpisodesList',
     function($scope, $rootScope, $routeParams, EpisodesList) {
         var tvseriesId = $routeParams['tvseriesId'];
+        $rootScope.hideMainContent = false;
+        $rootScope.hideSearchResults = true;
         $scope.items = EpisodesList.query({tvseriesId: tvseriesId});
+    }]
+);
+
+episodesControllers.controller('SearchTVSeriesCtrl', ['$scope', '$rootScope', '$routeParams', 'SearchTVSeriesList',
+    function($scope, $rootScope, $routeParams, SearchTVSeriesList) {
+        $rootScope.hideMainContent = false;
+        $rootScope.hideSearchResults = true;
+        $scope.SearchTVSeries = function() {
+            $rootScope.result = SearchTVSeriesList.query({q: $scope.q});
+            $rootScope.hideMainContent = true;
+            $rootScope.hideSearchResults = false;
+        }
     }]
 );

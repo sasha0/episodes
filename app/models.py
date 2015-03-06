@@ -1,9 +1,7 @@
 import os.path
-from flask_sqlalchemy import SQLAlchemy
 
-from episodes import app
 
-db = SQLAlchemy(app)
+from . import db
 
 
 genre_association_table = db.Table('genre_association', db.Model.metadata,
