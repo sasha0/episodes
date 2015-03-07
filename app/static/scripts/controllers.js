@@ -34,6 +34,15 @@ episodesControllers.controller('TVSeriesItemCtrl', ['$scope', '$rootScope', '$ro
             $scope.item = response;
             $rootScope.title = 'TV series — ' + response.title;
         });
+        this.tab = 1;
+
+    this.setTab = function(newValue){
+      this.tab = newValue;
+    };
+
+    this.isSet = function(tabName){
+      return this.tab === tabName;
+    };
     }]
 );
 

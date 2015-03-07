@@ -25,6 +25,7 @@ class TVSeriesDetail(Resource):
         tvseries = TVSeries.query.get(tvseries_id)
         data = dict(marshal(tvseries, tvseries_resource_fields))
         data['roles'] = marshal(tvseries.roles.all(), role_resource_fields)
+        data['episodes'] = marshal(tvseries.episodes, episode_resource_fields)
         return data
 
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var episodesApp = angular.module('episodesApp', ['ngRoute', 'episodesControllers', 'episodesServices']);
+var episodesApp = angular.module('episodesApp', ['ngRoute', 'episodesControllers', 'episodesDirectives', 'episodesServices']);
 
 episodesApp.config(
   function($routeProvider, $locationProvider) {

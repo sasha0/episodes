@@ -5,6 +5,7 @@
         </div>
         <div class="twelve wide column">
             {{ item.short_description }}<br><br>
+            <b>Genres:</b> {{ item.genres.join(', ') }}<br>
             <b>Credits:</b> {{ item.short_credits.join(', ') }}
         </div>
         <div class="ui divider items-divider"></div>

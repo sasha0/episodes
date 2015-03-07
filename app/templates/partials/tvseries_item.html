@@ -1,23 +1,43 @@
-<div>
+    <div class="ui page grid">
+        <h4 class="ui header"><a href="#/e/{{ item.id }}">{{ item.title }}</a></h4>
+        <div class="two wide column cover-thumbnail">
+            <img src="{{ item.cover_thumbnail }}" class="poster">
+        </div>
+        <div class="twelve wide column">
+            {{ item.description }}<br><br>
 
-                <div class="posts">
-                    <h1 class="content-subhead">{{ item.genres.join(', ') }}</h1>
-                    <img src="{{ item.cover_thumbnail }}" class="poster">
-                    <section class="post">
-                        <header class="post-header">
-                            <h4 class="post-title"><a href="#/e/{{ item.id }}">{{ item.title }}</a></h4>
-                            by {{ item.tvchannel }}
-                        </header>
-                        <div class="post-description">
-                            <p>
-                                {{ item.description }}
-                            </p>
-                            <a href="#/e/{{ item.id }}/e">All episodes</a><br>
-                            <b>Credits</b><br>
-                            <span ng-repeat="role in item.roles">
-                                {{ role.actor }} &mdash; {{ role.role }}<br>
-                            </span>
-                        </div>
-                    </section>
+                <div class="tab">
+                      <div class="ui secondary menu">
+                            <a class="item active" tabswitcher data-tab="actors">Actors</a>
+                            <a class="item" tabswitcher data-tab="episodes">Episodes</a>
+                      </div>
+                      <div class="ui tab active" data-tab="actors">
+                            <table border="0">
+                                <tr>
+                                    <td>
+                                        <b>Actor</b>
+                                    </td>
+                                    <td>
+                                        <b>Role</b>
+                                    </td>
+                                </tr>
+                                <tr ng-repeat="role in item.roles">
+                                    <td class="actor-row">
+                                        {{ role.actor }}
+                                    </td>
+                                    <td>
+                                        {{ role.role }}
+                                    </td>
+                                </tr>
+                            </table>
+                      </div>
+                      <div class="ui tab" data-tab="episodes">
+                          <ul>
+                              <li ng-repeat="item in item.episodes">
+                                  {{ item.title }} (e{{ item.episode_number }}, s{{ item.season_number }})
+                              </li>
+                          </ul>
+                      </div>
                 </div>
+            </div>
         </div>
