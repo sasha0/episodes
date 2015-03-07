@@ -1,18 +1,15 @@
-<div>
-    <img src="{{ item.logo_thumbnail }}" class="tvchannel-logo">
-    <div class="posts" ng-repeat="tvseries in item.tvseries">
-        <h1 class="content-subhead">{{ item.genres.join(', ') }}</h1>
-        <img src="{{ tvseries.cover_thumbnail }}" class="poster">
-        <section class="post">
-            <header class="post-header">
-                <h4 class="post-title"><a href="#/e/{{ tvseries.id }}">{{ tvseries.title }}</a></h4>
-            </header>
-            <div class="post-description">
-                <p>
-                    {{ tvseries.short_description }}
-                </p>
-            </div>
-            <b>Credits:</b> {{ item.short_credits.join(', ') }}
-        </section>
+    <div class="ui page grid">
+        <img src="{{ item.logo_thumbnail }}" class="tvchannel-logo">
+    </div><br><br>
+    <div class="ui page grid" ng-repeat="tvseries in item.tvseries">
+        <h4 class="ui header"><a href="#/e/{{ tvseries.id }}">{{ tvseries.title }}</a></h4>
+        <div class="two wide column cover-thumbnail">
+            <img src="{{ tvseries.cover_thumbnail }}" class="poster">
+        </div>
+        <div class="twelve wide column">
+            {{ tvseries.short_description }}<br><br>
+            <b>Genres:</b> {{ tvseries.genres.join(', ') }}<br>
+            <b>Credits:</b> {{ tvseries.short_credits.join(', ') }}
+        </div>
+        <div class="ui divider items-divider"></div>
     </div>
-</div>
