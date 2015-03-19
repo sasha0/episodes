@@ -6,3 +6,5 @@ SQLAlchemy
 flask
 flask-restful
 flask-sqlalchemy
+git+ssh://git@github.com/mattupstate/flask-social#flask-social
+git+ssh://git@github.com/pythonforfacebook/facebook-sdk#facebook-sdk
