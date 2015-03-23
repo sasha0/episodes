@@ -163,3 +163,5 @@ class TVSeriesFeed(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     tvseries_id = db.Column(db.Integer, db.ForeignKey('tvseries.id'))
+    tvseries = db.relationship("TVSeries")
+    notify_by_email = db.Column(db.Boolean)

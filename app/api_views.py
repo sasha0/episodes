@@ -104,6 +104,19 @@ class SubscribeToTVSeries(Resource):
             success = True
         return {'success': success}
 
+
+class Profile(Resource):
+
+    def get(self):
+        subscription = TVSeriesFeed.query.filter(TVSeriesFeed.user_id == current_user.id)
+        data = {}
+        data['subscriptions'] = {}
+        for s in subscription:
+            tvseries_id = s.tvseries_id
+            data['subscriptions'][tvseries_id] = dict(marshal(s.tvseries, tvseries_resource_fields))
+            data['subscriptions'][tvseries_id]['notify_by_email'] = s.notify_by_email
+        return data
+
 api.add_resource(TVSeriesList, '/series', '/series/<int:page_id>')
 api.add_resource(TVSeriesDetail, '/series/i/<int:tvseries_id>')
 api.add_resource(TVChannelsList, '/channels/')
@@ -112,3 +125,4 @@ api.add_resource(EpisodesList, '/series/i/<int:tvseries_id>/episodes')
 api.add_resource(UpcomingEpisodesList, '/episodes/upcoming/', '/episodes/upcoming/<int:page_id>')
 api.add_resource(TVSeriesSearch, '/series/search')
 api.add_resource(SubscribeToTVSeries, '/series/subscribe')
+api.add_resource(Profile, '/profile')
