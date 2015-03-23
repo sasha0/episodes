@@ -1,7 +1,18 @@
+    <div class="ui page grid" ng-hide="!message">
+         <div class="forteen wide column">
+                <div class="ui small message">
+                 <i class="close icon" ng-click="hide_message();"></i>
+                    {{ message }}
+                </div>
+        </div>
+    </div>
     <div class="ui page grid" ng-repeat="item in items">
         <h4 class="ui header"><a href="#/e/{{ item.id }}">{{ item.title }}</a></h4>
         <div class="two wide column cover-thumbnail">
             <img src="{{ item.cover_thumbnail }}" class="poster">
+            <div class="ui teal basic button subscribe-button" ng-click="subscribe(item.id)" ng-hide="!user_id">
+                <i class="add icon narrow-button"></i> subscribe
+            </div>
         </div>
         <div class="twelve wide column">
             {{ item.short_description }}<br><br>

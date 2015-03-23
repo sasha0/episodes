@@ -156,9 +156,9 @@ class Connection(db.Model):
     rank = db.Column(db.Integer)
 
 
-class TvseriesFeed(db.Model):
+class TVSeriesFeed(db.Model):
 
-    __tablename__ = "feeds"
+    __tablename__ = "tvseries_feeds"
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))

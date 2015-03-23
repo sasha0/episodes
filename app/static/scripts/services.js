@@ -50,3 +50,10 @@ episodesServices.factory('SearchTVSeriesList', ['$resource',
       query: {method:'GET', isArray: true, params: {'q': '@q'}}
     });
   }]);
+
+episodesServices.factory('Subscription', ['$resource',
+  function($resource){
+    return $resource('series/subscribe/', {}, {
+      save: {method:'POST'}
+    });
+  }]);

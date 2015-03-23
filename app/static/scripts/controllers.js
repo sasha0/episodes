@@ -3,7 +3,8 @@
 var episodesControllers = angular.module('episodesControllers', []);
 
 episodesControllers.controller('TVSeriesListCtrl', ['$scope', '$rootScope', '$location', '$routeParams', 'TVSeriesList',
-    function($scope, $rootScope, $location, $routeParams, TVSeriesList) {
+                                                    'Subscription',
+    function($scope, $rootScope, $location, $routeParams, TVSeriesList, Subscription) {
         $rootScope.hideMainContent = false;
         $rootScope.hideSearchResults = true;
         $rootScope.title = 'Popular TV series';
@@ -11,6 +12,7 @@ episodesControllers.controller('TVSeriesListCtrl', ['$scope', '$rootScope', '$lo
         TVSeriesList.query({pageId: pageId}, function(response) {
             $scope.items = response.items;
             $scope.pagination_items = response.pagination_items;
+            $scope.user_id = response.user_id;
         });
         if (typeof(pageId) !== 'undefined') {
             $scope.current_page = pageId;
@@ -19,8 +21,23 @@ episodesControllers.controller('TVSeriesListCtrl', ['$scope', '$rootScope', '$lo
             $scope.current_page = 1;
         }
 
-        $scope.next_page = function (page) {
+        $scope.next_page = function(page) {
             $location.path('/p/' + page);
+        }
+
+        $scope.subscribe = function(item_id) {
+            Subscription.save({'tvseries_id': item_id}, function(response) {
+               if (response.success) {
+                   $scope.message = 'Successfully subscribed to "' + $scope.items[item_id].title + '" updates.';
+               }
+               else {
+                   $scope.message = 'Already subscribed to "' + $scope.items[item_id].title + '".';
+               }
+            });
+        }
+
+        $scope.hide_message = function() {
+            $scope.message = '';
         }
     }]
 );
