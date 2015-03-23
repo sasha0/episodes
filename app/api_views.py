@@ -15,9 +15,17 @@ class TVSeriesList(Resource):
 
     def get(self, page_id=1):
         pagination = TVSeries.query.paginate(page_id)
+        user_id = getattr(current_user, 'id', None)
         data = dict(marshal(pagination.items, tvseries_resource_fields, envelope='items'))
         data['pagination_items'] = list(pagination.iter_pages())
-        data['user_id'] = getattr(current_user, 'id', None)
+        data['user_id'] = user_id
+        if user_id:
+            feed = TVSeriesFeed.query.filter(TVSeriesFeed.user_id == user_id)
+            for tvseries in data['items']:
+                if tvseries['id'] in [f.tvseries_id for f in feed]:
+                    tvseries['is_subscribed'] = True
+                else:
+                    tvseries['is_subscribed'] = False
         return data
 
 
