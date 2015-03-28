@@ -71,8 +71,8 @@
         </div>
           <div class="ui text menu right">
               {% if user.is_authenticated() %}
-                  <a href="#/profile/" class="item">profile</a>
-                  <a href="{{ url_for('security.logout') }}" class="item">logout</a>
+                  <a href="#/s/" class="item">My Episodes</a>
+                  <a href="{{ url_for('security.logout') }}" class="item">Logout</a>
               {% else %}
               <form action="{{ url_for('social.login', provider_id='facebook') }}" method="POST" name="login_form" class="item">
                   <a href="javascript:void(null);" onclick="login_form.submit();">Sign in with Facebook</a>
