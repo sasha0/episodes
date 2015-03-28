@@ -42,13 +42,14 @@ episodesControllers.controller('TVSeriesListCtrl', ['$scope', '$rootScope', '$lo
     }]
 );
 
-episodesControllers.controller('TVSeriesItemCtrl', ['$scope', '$rootScope', '$routeParams', 'TVSeriesDetail',
-    function($scope, $rootScope, $routeParams, TVSeriesDetail) {
+episodesControllers.controller('TVSeriesItemCtrl', ['$scope', '$rootScope', '$routeParams', 'TVSeriesDetail', 'Subscription',
+    function($scope, $rootScope, $routeParams, TVSeriesDetail, Subscription) {
         var tvseriesId = $routeParams['tvseriesId'];
         $rootScope.hideMainContent = false;
         $rootScope.hideSearchResults = true;
         TVSeriesDetail.get({tvseriesId: tvseriesId}, function(response) {
             $scope.item = response;
+            $scope.user_id = response.user_id;
             $rootScope.title = 'TV series — ' + response.title;
         });
         this.tab = 1;
@@ -60,6 +61,22 @@ episodesControllers.controller('TVSeriesItemCtrl', ['$scope', '$rootScope', '$ro
     this.isSet = function(tabName){
       return this.tab === tabName;
     };
+
+    $scope.subscribe = function(item_id) {
+        Subscription.save({'tvseries_id': item_id}, function(response) {
+            if (response.success) {
+                $scope.message = 'Successfully subscribed to "' + $scope.item.title + '" updates.';
+            }
+            else {
+                $scope.message = 'Already subscribed to "' + $scope.item.title + '".';
+            }
+        });
+    }
+
+    $scope.hide_message = function() {
+        $scope.message = '';
+    }
+
     }]
 );
 
@@ -139,5 +156,18 @@ episodesControllers.controller('SearchTVSeriesCtrl', ['$scope', '$rootScope', '$
             $rootScope.hideMainContent = true;
             $rootScope.hideSearchResults = false;
         }
+    }]
+);
+
+episodesControllers.controller('SubscriptionsCtrl', ['$scope', '$rootScope', '$routeParams', 'Subscription',
+    function($scope, $rootScope, $routeParams, Subscription) {
+        $rootScope.hideMainContent = false;
+        $rootScope.hideSearchResults = true;
+        $rootScope.title = 'My Episodes';
+        var pageId = $routeParams['pageId'];
+        Subscription.query({pageId: pageId}, function(response) {
+           $scope.items = response.items;
+
+        });
     }]
 );

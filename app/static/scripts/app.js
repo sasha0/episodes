@@ -33,6 +33,10 @@ episodesApp.config(
             templateUrl: '/partials/upcoming_episodes.html',
             controller: 'UpcomingEpisodesListCtrl'
       })
+      .when('/s/', {
+            templateUrl: '/partials/upcoming_episodes.html',
+            controller: 'SubscriptionsCtrl'
+        })
       .otherwise({
         redirectTo: '/p/1'
       });

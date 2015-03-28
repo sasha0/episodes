@@ -53,7 +53,8 @@ episodesServices.factory('SearchTVSeriesList', ['$resource',
 
 episodesServices.factory('Subscription', ['$resource',
   function($resource){
-    return $resource('series/subscribe/', {}, {
-      save: {method:'POST'}
+    return $resource('subscriptions/:pageId', {}, {
+      save: {method:'POST'},
+      query: {method: 'GET', isArray: false, pageId: '@id'}
     });
   }]);
