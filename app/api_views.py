@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""REST API controllers, powered by flask-restful."""
+
 from flask.ext.restful import Api, Resource, fields, marshal_with, marshal
 from flask.ext.restful import reqparse
 from flask.ext.security import current_user
@@ -12,6 +14,7 @@ parser = reqparse.RequestParser()
 
 
 class TVSeriesList(Resource):
+    """Paginated list of available TV shows, including indication if current user subscribed to given TV shows."""
 
     def get(self, page_id=1):
         pagination = TVSeries.query.paginate(page_id)
@@ -30,6 +33,7 @@ class TVSeriesList(Resource):
 
 
 class TVSeriesDetail(Resource):
+    """Page with detailed information about single TV show."""
 
     def get(self, tvseries_id):
         tvseries = TVSeries.query.get(tvseries_id)
@@ -48,6 +52,7 @@ class TVSeriesDetail(Resource):
 
 
 class TVChannelsList(Resource):
+    """List of available TV channels."""
 
     @marshal_with(tvchannel_resource_fields)
     def get(self):
@@ -55,6 +60,7 @@ class TVChannelsList(Resource):
 
 
 class TVSeriesForChannelList(Resource):
+    """List of TV series, produced by given TV channel."""
 
     def get(self, tvchannel_id):
         tvchannel = TVChannel.query.get(tvchannel_id)
@@ -67,6 +73,7 @@ class TVSeriesForChannelList(Resource):
 
 
 class UpcomingEpisodesList(Resource):
+    """List of episodes, to be aired in the nearest future."""
 
     def get(self, page_id=1):
         pagination = Episode.query.filter(Episode.showed_at >= datetime.date.today())\
@@ -78,6 +85,7 @@ class UpcomingEpisodesList(Resource):
 
 
 class EpisodesList(Resource):
+    """List of all available episodes for the given TV show."""
 
     @marshal_with(episode_resource_fields)
     def get(self, tvseries_id):
@@ -86,6 +94,7 @@ class EpisodesList(Resource):
 
 
 class TVSeriesSearch(Resource):
+    """Full-text search of TV series, powered by Elasticsearch."""
 
     @marshal_with(tvseries_resource_fields)
     def get(self):
@@ -97,6 +106,7 @@ class TVSeriesSearch(Resource):
 
 
 class Subscriptions(Resource):
+    """List of TV shows, user subscribed to. Ability to subscribe to given TV show to get updates."""
 
     def post(self):
         success = False

@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""Declarative models for flask-sqlalchemy."""
+
 import os.path
 from flask.ext.security import UserMixin, RoleMixin
 
@@ -15,6 +18,8 @@ roles_users = db.Table('roles_users',
 
 
 class TVChannel(db.Model):
+    """Television channel that broadcasting given TV shows."""
+
     __tablename__ = 'tvchannel'
 
     id = db.Column('id', db.Integer, primary_key=True)
@@ -36,6 +41,8 @@ class TVChannel(db.Model):
 
 
 class Episode(db.Model):
+    """Persists data about single episode of given TV show."""
+
     __tablename__ = 'episode'
 
     id = db.Column('id', db.Integer, primary_key=True)
@@ -49,6 +56,8 @@ class Episode(db.Model):
 
 
 class TVSeries(db.Model):
+    """General information about given TV show."""
+
     __tablename__ = 'tvseries'
 
     id = db.Column('id', db.Integer, primary_key=True)
@@ -77,6 +86,11 @@ class TVSeries(db.Model):
 
 
 class Role(db.Model):
+    """
+    Role, that actor played in the given TV show.
+    E.g. Idris Elba was "DCI John Luther" in BBC's show "Luther".
+    """
+
     __tablename__ = 'role'
 
     id = db.Column('id', db.Integer, primary_key=True)
@@ -91,6 +105,8 @@ class Role(db.Model):
 
 
 class Actor(db.Model):
+    """Persists person, who played character in one or multiple TV series."""
+
     __tablename__ = 'actor'
 
     id = db.Column('id', db.Integer, primary_key=True)
@@ -102,6 +118,8 @@ class Actor(db.Model):
 
 
 class Genre(db.Model):
+    """TV series genre - action, drama etc."""
+
     __tablename__ = 'genre'
 
     id = db.Column('id', db.Integer, primary_key=True)
@@ -115,6 +133,7 @@ class Genre(db.Model):
 
 
 class UserRole(db.Model, RoleMixin):
+    """User permissions, brought by flask-security."""
 
     __tablename__ = "userroles"
 
@@ -124,6 +143,7 @@ class UserRole(db.Model, RoleMixin):
 
 
 class User(db.Model, UserMixin):
+    """User model, provided by flask-security."""
 
     __tablename__ = "users"
 
@@ -140,6 +160,7 @@ class User(db.Model, UserMixin):
 
 
 class Connection(db.Model):
+    """Persists connection to OAuth provider. Brought by flask-social."""
 
     __tablename__ = "connections"
 
@@ -157,6 +178,7 @@ class Connection(db.Model):
 
 
 class TVSeriesFeed(db.Model):
+    """TV Series, user subscribed to."""
 
     __tablename__ = "tvseries_feeds"
 

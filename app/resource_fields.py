@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Configs for serialization by flask-restful."""
+
 import datetime
 from flask.ext.restful import fields
 
