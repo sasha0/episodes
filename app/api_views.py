@@ -33,10 +33,17 @@ class TVSeriesDetail(Resource):
 
     def get(self, tvseries_id):
         tvseries = TVSeries.query.get(tvseries_id)
+        user_id = getattr(current_user, 'id', None)
         data = dict(marshal(tvseries, tvseries_resource_fields))
         data['roles'] = marshal(tvseries.roles.all(), role_resource_fields)
         data['episodes'] = marshal(tvseries.episodes, episode_resource_fields)
-        data['user_id'] = current_user.id
+        data['user_id'] = user_id
+        if user_id:
+            feed = TVSeriesFeed.query.filter(TVSeriesFeed.user_id == user_id)
+            if data['id'] in [f.tvseries_id for f in feed]:
+                data['is_subscribed'] = True
+            else:
+                data['is_subscribed'] = False
         return data
 
 
@@ -62,7 +69,6 @@ class TVSeriesForChannelList(Resource):
 class UpcomingEpisodesList(Resource):
 
     def get(self, page_id=1):
-        from models import Episode, db
         pagination = Episode.query.filter(Episode.showed_at >= datetime.date.today())\
                                   .order_by(db.desc(Episode.showed_at))\
                                   .paginate(page_id)
@@ -90,7 +96,7 @@ class TVSeriesSearch(Resource):
         return list(r)
 
 
-class SubscribeToTVSeries(Resource):
+class Subscriptions(Resource):
 
     def post(self):
         success = False
@@ -104,18 +110,19 @@ class SubscribeToTVSeries(Resource):
             success = True
         return {'success': success}
 
-
-class Profile(Resource):
-
-    def get(self):
-        subscription = TVSeriesFeed.query.filter(TVSeriesFeed.user_id == current_user.id)
-        data = {}
-        data['subscriptions'] = {}
-        for s in subscription:
-            tvseries_id = s.tvseries_id
-            data['subscriptions'][tvseries_id] = dict(marshal(s.tvseries, tvseries_resource_fields))
-            data['subscriptions'][tvseries_id]['notify_by_email'] = s.notify_by_email
-        return data
+    def get(self, page_id=1):
+        user_id = getattr(current_user, 'id', None)
+        if user_id:
+            feed = TVSeriesFeed.query.filter(TVSeriesFeed.user_id == user_id)
+            tvseries_ids = [f.tvseries_id for f in feed]
+            pagination = Episode.query.filter(Episode.showed_at >= datetime.date.today(),
+                                              Episode.tvseries_id.in_(tvseries_ids))\
+                                      .order_by(db.desc(Episode.showed_at))\
+                                      .paginate(page_id)
+            data = dict(marshal(pagination.items, upcoming_episode_resource_fields, envelope='items'))
+            data['pagination_items'] = list(pagination.iter_pages())
+            return data
+        return {}
 
 api.add_resource(TVSeriesList, '/series', '/series/<int:page_id>')
 api.add_resource(TVSeriesDetail, '/series/i/<int:tvseries_id>')
@@ -124,5 +131,4 @@ api.add_resource(TVSeriesForChannelList, '/channels/<int:tvchannel_id>/tvseries'
 api.add_resource(EpisodesList, '/series/i/<int:tvseries_id>/episodes')
 api.add_resource(UpcomingEpisodesList, '/episodes/upcoming/', '/episodes/upcoming/<int:page_id>')
 api.add_resource(TVSeriesSearch, '/series/search')
-api.add_resource(SubscribeToTVSeries, '/series/subscribe')
-api.add_resource(Profile, '/profile')
+api.add_resource(Subscriptions, '/subscriptions', '/subscriptions/<int:page_id>')
